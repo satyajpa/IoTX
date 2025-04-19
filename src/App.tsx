@@ -316,7 +316,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
           <div className="text-center max-w-4xl mx-auto mb-16">
             <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-8">
-              Transform How You Efficiently Manage Your Smart Buildings
+              Power Smarter Decisions Across Assets, Buildings, People & Urban Spaces
             </h1>
             <p className="text-gray-300 text-lg mb-12 max-w-3xl mx-auto">
               Take Control Of Your Data With Seamless Organization And Real-Time Access. Secure, Scalable, And Designed To Empower Your Business Growth.
