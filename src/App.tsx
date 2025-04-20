@@ -10,10 +10,12 @@ import {
   CheckCircle2,
   Twitter,
   Linkedin,
-  Github
+  Github,
+  AlertCircle
 } from 'lucide-react';
 import { Menu, Transition } from '@headlessui/react';
 import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
+import emailjs from '@emailjs/browser';
 import HomePage from './HomePage';
 import BlogPage from './BlogPage';
 import UseCasesPage from './UseCasesPage';
@@ -21,8 +23,13 @@ import AboutPage from './AboutPage';
 import ContactPage from './ContactPage';
 import SEO from './components/SEO';
 
+// EmailJS configuration
+const EMAILJS_SERVICE_ID = 'service_rlly0rh';
+const EMAILJS_TEMPLATE_ID = 'template_gbr193e';
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '';
+
 // Environment variables
-const CONTACT_EMAIL = import.meta.env.VITE_CONTACT_EMAIL || 'satyajeetpanda.nist@gmail.com';
+const CONTACT_EMAIL = import.meta.env.VITE_CONTACT_EMAIL || 'contact@iot-x.io';
 const API_URL = import.meta.env.VITE_API_URL || '';
 
 // ScrollToTop component to handle scroll position on route change
@@ -40,6 +47,8 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [trialModalOpen, setTrialModalOpen] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -89,93 +98,41 @@ function App() {
     });
   };
 
-  // Function to check if the server is running (only logs to console, never displays to user)
-  const checkServerStatus = async () => {
-    try {
-      console.log('Checking server status at http://localhost:3000/api/health');
-      const response = await fetch('http://localhost:3000/api/health', { 
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-      });
-      
-      const data = await response.json();
-      console.log('Server health check response:', data);
-      
-      if (response.ok) {
-        return true;
-      } else {
-        console.error('Server is down or not responding properly');
-        return false;
-      }
-    } catch (error) {
-      console.error('Server check error:', error);
-      return false;
-    }
-  };
-
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    setFormSubmitting(true);
+    setFormError(null);
     
     try {
-      // Check server status first
-      const isServerRunning = await checkServerStatus();
+      // Prepare EmailJS parameters
+      const templateParams = {
+        subject: 'Free Trial Request from IoT X Website',
+        name: formData.name,
+        email: formData.email,
+        company: formData.company || 'Not provided',
+        phone: formData.phone || 'Not provided',
+        message: formData.message || 'No additional information provided'
+      };
       
-      if (!isServerRunning) {
-        // If server is not running, simulate successful submission for demo purposes
-        console.log('Server is down. Using fallback mode with simulated success.');
-        console.log('Form data that would be sent:', formData);
-        
-        // Wait a moment to simulate processing
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Show success message
-        setFormSubmitted(true);
-        
-        // Reset form after 3 seconds and close modal
-        setTimeout(() => {
-          setFormSubmitted(false);
-          setTrialModalOpen(false);
-          setFormData({
-            name: '',
-            email: '',
-            company: '',
-            phone: '',
-            message: ''
-          });
-        }, 3000);
-        
-        return;
-      }
-      
-      // Otherwise attempt to send through API
-      console.log('Attempting to submit form to:', API_URL || 'http://localhost:3000/api/contact');
-      
-      // Submit form data to backend API
-      const response = await fetch(API_URL || 'http://localhost:3000/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          subject: 'Free Trial Request from IoT X Website'
-        }),
+      console.log('Sending email with EmailJS:', {
+        serviceId: EMAILJS_SERVICE_ID,
+        templateId: EMAILJS_TEMPLATE_ID,
+        params: templateParams
       });
       
-      // Parse response data
-      const data = await response.json();
-      console.log('Server response:', data);
+      // Send email using EmailJS
+      const response = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
       
-      if (!response.ok) {
-        // Extract detailed error information if available
-        const errorMessage = data.message || 'Failed to send trial request';
-        const errorCode = data.errorCode ? ` (Error code: ${data.errorCode})` : '';
-        throw new Error(`${errorMessage}${errorCode}`);
-      }
+      console.log('EmailJS response:', response);
       
       // Show success message
       setFormSubmitted(true);
+      setFormSubmitting(false);
       
       // Reset form after 3 seconds and close modal
       setTimeout(() => {
@@ -191,21 +148,12 @@ function App() {
       }, 3000);
     } catch (error) {
       console.error('Error sending trial request:', error);
-      // Show success message anyway for demo purposes
-      // In a real application, you would show an error message
-      setFormSubmitted(true);
-      
-      setTimeout(() => {
-        setFormSubmitted(false);
-        setTrialModalOpen(false);
-        setFormData({
-          name: '',
-          email: '',
-          company: '',
-          phone: '',
-          message: ''
-        });
-      }, 3000);
+      setFormSubmitting(false);
+      setFormError(
+        error instanceof Error 
+          ? error.message 
+          : 'Failed to send your trial request. Please try again later.'
+      );
     }
   };
   
@@ -468,6 +416,13 @@ function App() {
                   </div>
                   
                   <form onSubmit={handleFormSubmit}>
+                    {formError && (
+                      <div className="bg-red-900/30 border border-red-500 text-red-200 p-3 rounded-md mb-4 flex items-start">
+                        <AlertCircle className="h-5 w-5 text-red-400 mr-2 mt-0.5 flex-shrink-0" />
+                        <p>{formError}</p>
+                      </div>
+                    )}
+                    
                     <div className="space-y-4">
                       <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">Full Name</label>
@@ -552,13 +507,24 @@ function App() {
                     
                     <button 
                       type="submit" 
-                      className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-4 rounded-lg mt-6 transition-colors"
+                      className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-4 rounded-lg mt-6 transition-colors flex items-center justify-center"
+                      disabled={formSubmitting}
                     >
-                      Request Your Free Trial
+                      {formSubmitting ? (
+                        <>
+                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Sending...
+                        </>
+                      ) : (
+                        "Request Your Free Trial"
+                      )}
                     </button>
                     
                     <p className="text-xs text-gray-400 mt-4 text-center">
-                      By signing up, you agree to our Terms of Service and Privacy Policy. We'll contact you at contact@iot-x.io within 24 hours.
+                      By signing up, you agree to our Terms of Service and Privacy Policy.
                     </p>
                   </form>
                 </>
