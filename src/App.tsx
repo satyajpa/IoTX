@@ -18,7 +18,23 @@ import HomePage from './HomePage';
 import BlogPage from './BlogPage';
 import UseCasesPage from './UseCasesPage';
 import AboutPage from './AboutPage';
+import ContactPage from './ContactPage';
 import SEO from './components/SEO';
+
+// Environment variables
+const CONTACT_EMAIL = import.meta.env.VITE_CONTACT_EMAIL || 'satyajeetpanda.nist@gmail.com';
+const API_URL = import.meta.env.VITE_API_URL || '';
+
+// ScrollToTop component to handle scroll position on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  
+  return null;
+}
 
 function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -73,14 +89,35 @@ function App() {
     });
   };
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Here you would typically send the data to a server
     console.log('Form submitted:', formData);
     
-    // In a real implementation, you would make an API call to send the email
-    // For now, we'll just simulate a successful submission
-    setTimeout(() => {
+    try {
+      // For demonstration, we'll show the success message without actual API call
+      // In a production environment, you would uncomment and use the following code
+      /*
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          recipient: CONTACT_EMAIL
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      */
+      
+      // Log the email that would be sent
+      console.log(`Email would be sent to: ${CONTACT_EMAIL}`);
+      console.log('Email contents:', formData);
+      
+      // Show success message
       setFormSubmitted(true);
       
       // Reset form after 3 seconds and close modal
@@ -95,7 +132,10 @@ function App() {
           message: ''
         });
       }, 3000);
-    }, 1000);
+    } catch (error) {
+      console.error('Error sending email:', error);
+      // You would typically show an error message to the user here
+    }
   };
   
   // Scroll to features section when clicking on Features in the nav
@@ -114,6 +154,9 @@ function App() {
         description="Transform buildings and urban spaces with our advanced IoT platform."
       />
       <div className="min-h-screen bg-gray-950 text-white">
+        {/* ScrollToTop component to reset scroll position when navigating */}
+        <ScrollToTop />
+        
         {/* Navigation */}
         <nav className="fixed w-full bg-gray-950/95 backdrop-blur-sm z-50 border-b border-purple-900/20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -196,12 +239,12 @@ function App() {
                 <Link to="/blog" className="text-gray-300 hover:text-purple-400 transition-colors">Blog</Link>
                 <Link to="/about" className="text-gray-300 hover:text-purple-400 transition-colors">About</Link>
                 
-                <button 
-                  className="bg-white text-gray-900 px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors"
-                  onClick={() => setTrialModalOpen(true)}
+                <Link 
+                  to="/contact"
+                  className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md transition-colors"
                 >
-                  Contact us
-                </button>
+                  Contact Us
+                </Link>
               </div>
             </div>
           </div>
@@ -251,15 +294,12 @@ function App() {
               <Link to="/about" className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
                 About
               </Link>
-              <button 
-                onClick={() => {
-                  setTrialModalOpen(true);
-                  setMobileMenuOpen(false);
-                }}
+              <Link 
+                to="/contact"
                 className="block w-full text-left px-3 py-2 rounded-md text-base font-medium bg-white text-gray-900 hover:bg-gray-100"
               >
                 Contact us
-              </button>
+              </Link>
             </div>
           </div>
         </nav>
@@ -273,6 +313,7 @@ function App() {
             <Route path="/usecases" element={<UseCasesPage />} />
             <Route path="/usecases/:useCase" element={<UseCasesPage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             {/* Add more routes as needed */}
           </Routes>
         </main>

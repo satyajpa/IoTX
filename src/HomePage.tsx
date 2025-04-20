@@ -242,7 +242,7 @@ const HomePage: React.FC<HomePageProps> = ({ openContactForm }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-gray-900 rounded-xl overflow-hidden shadow-lg border border-purple-500/20">
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-4">Energy Manager</h3>
+                <h3 className="text-xl font-bold mb-4">Energy Management</h3>
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="bg-gray-800/50 p-4 rounded-lg">
                     <div className="text-sm text-gray-400 mb-1">Total Energy</div>
@@ -314,7 +314,7 @@ const HomePage: React.FC<HomePageProps> = ({ openContactForm }) => {
 
             <div className="bg-gray-900 rounded-xl overflow-hidden shadow-lg border border-purple-500/20">
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-4">Sustainability Manager</h3>
+                <h3 className="text-xl font-bold mb-4">Sustainability</h3>
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="bg-gray-800/50 p-4 rounded-lg">
                     <div className="text-sm text-gray-400 mb-1">Carbon Footprint</div>
@@ -371,7 +371,7 @@ const HomePage: React.FC<HomePageProps> = ({ openContactForm }) => {
 
             <div className="bg-gray-900 rounded-xl overflow-hidden shadow-lg border border-purple-500/20">
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-4">Air Quality Manager</h3>
+                <h3 className="text-xl font-bold mb-4">Air Quality Monitoring</h3>
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="bg-gray-800/50 p-4 rounded-lg">
                     <div className="text-sm text-gray-400 mb-1">IAQ Score</div>
@@ -426,7 +426,7 @@ const HomePage: React.FC<HomePageProps> = ({ openContactForm }) => {
 
             <div className="bg-gray-900 rounded-xl overflow-hidden shadow-lg border border-purple-500/20">
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-4">Asset Manager</h3>
+                <h3 className="text-xl font-bold mb-4">Asset Management</h3>
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="bg-gray-800/50 p-4 rounded-lg">
                     <div className="text-sm text-gray-400 mb-1">Equipment Efficiency</div>
