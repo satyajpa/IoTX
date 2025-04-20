@@ -7,15 +7,15 @@ interface SEOProps {
 }
 
 const SEO: React.FC<SEOProps> = ({ 
-  title = "IOTX Platform", 
-  description = "Power Smarter Decisions Across Assets, Buildings, People & Urban Spaces", 
-  keywords = "IoT, smart buildings, asset management" 
+  title = "IoT X - AI Powered IoT Platform",
+  description = "Transform buildings and urban spaces with our advanced IoT platform.",
+  keywords = "IoT platform, smart buildings" 
 }) => {
   return (
     <>
       <title>{title}</title>
       <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
+      {keywords && <meta name="keywords" content={keywords} />}
       
       {/* Favicon */}
       <link rel="icon" type="image/svg+xml" href="/IoTX.svg" />
