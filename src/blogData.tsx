@@ -268,13 +268,13 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 6,
-    title: "Workplace Safety Enhanced: IoT Wearables in Industrial Environments",
-    excerpt: "Proximity alerts, environmental hazard detection, and fatigue monitoring for safer workplaces.",
+    title: "Industrial Safety: IoT Wearables for Worker Protection in Hazardous Environments",
+    excerpt: "Smart PPE, real-time health monitoring, and automated risk detection systems for industrial workplaces.",
     category: "Industrial",
     categoryColor: "bg-red-500",
-    readTime: "7 min read",
-    date: "Apr 2, 2023",
-    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
+    readTime: "8 min read",
+    date: "Apr 08, 2023",
+    image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
     featured: false,
     fullContent: (
       <>
@@ -317,7 +317,7 @@ export const blogPosts: BlogPost[] = [
     categoryColor: "bg-cyan-500",
     readTime: "6 min read",
     date: "Jan 25, 2023",
-    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
+    image: "https://images.unsplash.com/photo-1606676539940-12768ce0e762?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
     featured: false,
     fullContent: (
       <>
@@ -360,7 +360,7 @@ export const blogPosts: BlogPost[] = [
     categoryColor: "bg-amber-500",
     readTime: "8 min read",
     date: "May 30, 2023",
-    image: "https://images.unsplash.com/photo-1621904878334-37068975637d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
+    image: "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
     featured: false,
     fullContent: (
       <>

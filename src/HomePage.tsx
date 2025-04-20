@@ -48,7 +48,11 @@ const levelData = [
   { name: 'Access', value: 80 },
 ];
 
-const HomePage: React.FC = () => {
+interface HomePageProps {
+  openContactForm: () => void;
+}
+
+const HomePage: React.FC<HomePageProps> = ({ openContactForm }) => {
   const [animatedBlogs, setAnimatedBlogs] = React.useState(false);
   const [activeCategory, setActiveCategory] = React.useState("All");
   const [searchValue, setSearchValue] = React.useState("");
@@ -102,12 +106,12 @@ const HomePage: React.FC = () => {
                 Harness the power of IoT to optimize energy usage, enhance comfort, and streamline operations across your entire building portfolio.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link 
-                  to="/contact" 
+                <button 
+                  onClick={openContactForm}
                   className="bg-white text-gray-900 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors text-center"
                 >
                   Get Started
-                </Link>
+                </button>
                 <Link 
                   to="/usecases" 
                   className="border border-purple-500 text-purple-400 hover:text-purple-300 px-6 py-3 rounded-lg font-medium hover:border-purple-400 transition-colors flex items-center justify-center"
@@ -202,9 +206,6 @@ const HomePage: React.FC = () => {
               </div>
               <h3 className="text-xl font-bold mb-2">Intelligent Monitoring</h3>
               <p className="text-gray-400 mb-5">Gain real-time insights into your building's performance with data from IoT sensors and smart devices.</p>
-              <Link to="/features/monitoring" className="text-purple-400 hover:text-purple-300 flex items-center text-sm font-medium">
-                Learn More <ChevronRight className="ml-1 h-4 w-4" />
-              </Link>
             </div>
             
             <div className="bg-gradient-to-br from-gray-900 to-blue-900/20 backdrop-blur-sm p-6 rounded-xl border border-blue-500/20 transform transition-transform hover:-translate-y-1">
@@ -213,9 +214,6 @@ const HomePage: React.FC = () => {
               </div>
               <h3 className="text-xl font-bold mb-2">Energy Optimization</h3>
               <p className="text-gray-400 mb-5">Reduce energy consumption and costs with AI-powered optimization and automated control systems.</p>
-              <Link to="/features/energy" className="text-blue-400 hover:text-blue-300 flex items-center text-sm font-medium">
-                Learn More <ChevronRight className="ml-1 h-4 w-4" />
-              </Link>
             </div>
             
             <div className="bg-gradient-to-br from-gray-900 to-teal-900/20 backdrop-blur-sm p-6 rounded-xl border border-teal-500/20 transform transition-transform hover:-translate-y-1">
@@ -224,9 +222,6 @@ const HomePage: React.FC = () => {
               </div>
               <h3 className="text-xl font-bold mb-2">Enhanced Security</h3>
               <p className="text-gray-400 mb-5">Protect your building and occupants with integrated security and access control solutions.</p>
-              <Link to="/features/security" className="text-teal-400 hover:text-teal-300 flex items-center text-sm font-medium">
-                Learn More <ChevronRight className="ml-1 h-4 w-4" />
-              </Link>
             </div>
           </div>
         </div>
@@ -518,74 +513,62 @@ const HomePage: React.FC = () => {
               {
                 icon: <LineChart className="h-8 w-8 text-blue-500" />,
                 title: "Centralized Dashboard",
-                description: "Monitor and control all your building systems from a single, intuitive dashboard with customizable widgets and reports.",
-                link: "/features/dashboard"
+                description: "Monitor and control all your building systems from a single, intuitive dashboard with customizable widgets and reports."
               },
               {
                 icon: <Zap className="h-8 w-8 text-yellow-500" />,
                 title: "Energy Management",
-                description: "Track, analyze, and optimize energy usage across your building to reduce costs and improve sustainability.",
-                link: "/features/energy"
+                description: "Track, analyze, and optimize energy usage across your building to reduce costs and improve sustainability."
               },
               {
                 icon: <Users className="h-8 w-8 text-purple-500" />,
                 title: "Occupancy Management",
-                description: "Monitor space utilization in real-time and optimize room allocations based on actual usage patterns.",
-                link: "/features/occupancy"
+                description: "Monitor space utilization in real-time and optimize room allocations based on actual usage patterns."
               },
               {
                 icon: <Thermometer className="h-8 w-8 text-red-500" />,
                 title: "Environmental Monitoring",
-                description: "Track temperature, humidity, air quality, and other environmental parameters to ensure occupant comfort.",
-                link: "/features/environment"
+                description: "Track temperature, humidity, air quality, and other environmental parameters to ensure occupant comfort."
               },
               {
                 icon: <Settings2 className="h-8 w-8 text-green-500" />,
                 title: "Predictive Maintenance",
-                description: "Identify potential equipment issues before they cause problems with AI-powered predictive analytics.",
-                link: "/features/maintenance"
+                description: "Identify potential equipment issues before they cause problems with AI-powered predictive analytics."
               },
               {
                 icon: <Shield className="h-8 w-8 text-indigo-500" />,
                 title: "Security & Access Control",
-                description: "Manage access permissions, monitor security systems, and track visitor movements throughout your building.",
-                link: "/features/security"
+                description: "Manage access permissions, monitor security systems, and track visitor movements throughout your building."
               },
               {
                 icon: <Battery className="h-8 w-8 text-teal-500" />,
                 title: "Resource Management",
-                description: "Monitor and optimize water, electricity, gas, and other resource consumption in real-time.",
-                link: "/features/resources"
+                description: "Monitor and optimize water, electricity, gas, and other resource consumption in real-time."
               },
               {
                 icon: <CircuitBoard className="h-8 w-8 text-orange-500" />,
                 title: "System Integration",
-                description: "Seamlessly integrate with existing building management systems, HVAC, lighting, and security systems.",
-                link: "/features/integration"
+                description: "Seamlessly integrate with existing building management systems, HVAC, lighting, and security systems."
               },
               {
                 icon: <Wind className="h-8 w-8 text-teal-500" />,
                 title: "Air Quality Monitoring",
-                description: "Maintain healthy indoor environments by tracking temperature, humidity, CO₂, PM2.5, and other air quality parameters in real-time.",
-                link: "/features/airquality"
+                description: "Maintain healthy indoor environments by tracking temperature, humidity, CO₂, PM2.5, and other air quality parameters in real-time."
               },
               {
                 icon: <BarChart3 className="h-8 w-8 text-purple-500" />,
                 title: "Sustainability Tracking",
-                description: "Meet environmental goals with carbon footprint monitoring, renewable energy tracking, and progress reporting on sustainability initiatives.",
-                link: "/features/sustainability"
+                description: "Meet environmental goals with carbon footprint monitoring, renewable energy tracking, and progress reporting on sustainability initiatives."
               },
               {
                 icon: <AlertCircle className="h-8 w-8 text-red-400" />,
                 title: "Predictive Maintenance",
-                description: "Identify potential equipment issues before they cause problems with AI-powered predictive analytics and maintenance scheduling.",
-                link: "/features/predictive"
+                description: "Identify potential equipment issues before they cause problems with AI-powered predictive analytics and maintenance scheduling."
               },
               {
                 icon: <CircuitBoard className="h-8 w-8 text-indigo-500" />,
                 title: "Compliance Management",
-                description: "Ensure regulatory compliance with automated reporting, audit trails, and documentation for energy and building standards.",
-                link: "/features/compliance"
+                description: "Ensure regulatory compliance with automated reporting, audit trails, and documentation for energy and building standards."
               }
             ].map((feature, index) => (
               <div 
@@ -597,9 +580,6 @@ const HomePage: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
                 <p className="text-gray-400 mb-4">{feature.description}</p>
-                <Link to={feature.link} className="text-purple-400 hover:text-purple-300 flex items-center text-sm font-medium">
-                  Learn More <ChevronRight className="ml-1 h-4 w-4" />
-                </Link>
               </div>
             ))}
           </div>

@@ -17,6 +17,7 @@ import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'
 import HomePage from './HomePage';
 import BlogPage from './BlogPage';
 import UseCasesPage from './UseCasesPage';
+import AboutPage from './AboutPage';
 import SEO from './components/SEO';
 
 function App() {
@@ -151,7 +152,7 @@ function App() {
               
               {/* Desktop Navigation */}
               <div className="hidden md:flex items-center space-x-8">
-                <Link to="/about" className="text-gray-300 hover:text-purple-400 transition-colors">About</Link>
+                <Link to="/" className="text-gray-300 hover:text-purple-400 transition-colors">Home</Link>
                 <button onClick={scrollToFeatures} className="text-gray-300 hover:text-purple-400 transition-colors">Features</button>
                 
                 <Menu as="div" className="relative">
@@ -191,45 +192,9 @@ function App() {
                   )}
                 </Menu>
 
-                <Menu as="div" className="relative">
-                  {({ open }) => (
-                    <>
-                      <Menu.Button className="flex items-center text-gray-300 hover:text-purple-400 transition-colors">
-                        Integrations <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${open ? 'rotate-180' : ''}`} />
-                      </Menu.Button>
-                      <Transition
-                        show={open}
-                        enter="transition duration-100 ease-out"
-                        enterFrom="transform scale-95 opacity-0"
-                        enterTo="transform scale-100 opacity-100"
-                        leave="transition duration-75 ease-out"
-                        leaveFrom="transform scale-100 opacity-100"
-                        leaveTo="transform scale-95 opacity-0"
-                      >
-                        <Menu.Items className="absolute left-0 mt-2 w-64 origin-top-left rounded-md bg-gray-900 shadow-lg border border-purple-900/30 focus:outline-none">
-                          <div className="py-2 px-3">
-                            {integrations.map((integration, idx) => (
-                              <Menu.Item key={idx}>
-                                {({ active }) => (
-                                  <Link
-                                    to={integration.path}
-                                    className={`block py-2 px-3 rounded-md ${active ? 'bg-purple-900/20 text-purple-400' : 'text-gray-300'}`}
-                                  >
-                                    <div className="font-medium">{integration.name}</div>
-                                    <div className="text-sm text-gray-400">{integration.description}</div>
-                                  </Link>
-                                )}
-                              </Menu.Item>
-                            ))}
-                          </div>
-                        </Menu.Items>
-                      </Transition>
-                    </>
-                  )}
-                </Menu>
-
                 <Link to="/pricing" className="text-gray-300 hover:text-purple-400 transition-colors">Pricing</Link>
                 <Link to="/blog" className="text-gray-300 hover:text-purple-400 transition-colors">Blog</Link>
+                <Link to="/about" className="text-gray-300 hover:text-purple-400 transition-colors">About</Link>
                 
                 <button 
                   className="bg-white text-gray-900 px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors"
@@ -244,8 +209,8 @@ function App() {
           {/* Mobile menu, show/hide based on menu state */}
           <div className={`md:hidden ${mobileMenuOpen ? 'block' : 'hidden'}`}>
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-purple-900/20 bg-gray-900/90">
-              <Link to="/about" className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
-                About
+              <Link to="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                Home
               </Link>
               <button 
                 onClick={() => {
@@ -277,36 +242,24 @@ function App() {
                   ))}
                 </div>
               </div>
-              <div>
-                <button 
-                  className="flex justify-between w-full px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                  onClick={() => document.getElementById('mobile-integrations')?.classList.toggle('hidden')}
-                >
-                  <span>Integrations</span>
-                  <ChevronDown className="h-5 w-5" />
-                </button>
-                <div id="mobile-integrations" className="hidden pl-4 space-y-1">
-                  {integrations.map((integration, idx) => (
-                    <Link 
-                      key={idx}
-                      to={integration.path}
-                      className="block px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {integration.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
               <Link to="/pricing" className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
                 Pricing
               </Link>
               <Link to="/blog" className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
                 Blog
               </Link>
-              <Link to="/contact" className="block px-3 py-2 rounded-md text-base font-medium bg-white text-gray-900 hover:bg-gray-100">
-                Contact us
+              <Link to="/about" className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                About
               </Link>
+              <button 
+                onClick={() => {
+                  setTrialModalOpen(true);
+                  setMobileMenuOpen(false);
+                }}
+                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium bg-white text-gray-900 hover:bg-gray-100"
+              >
+                Contact us
+              </button>
             </div>
           </div>
         </nav>
@@ -314,11 +267,12 @@ function App() {
         {/* Main Content with Routes */}
         <main>
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomePage openContactForm={() => setTrialModalOpen(true)} />} />
             <Route path="/blog" element={<BlogPage setShowBlogPage={setShowBlogPage} activeBlogId={null} setActiveBlogId={setActiveBlogId} />} />
             <Route path="/blog/:id" element={<BlogPage setShowBlogPage={setShowBlogPage} activeBlogId={activeBlogId} setActiveBlogId={setActiveBlogId} />} />
             <Route path="/usecases" element={<UseCasesPage />} />
             <Route path="/usecases/:useCase" element={<UseCasesPage />} />
+            <Route path="/about" element={<AboutPage />} />
             {/* Add more routes as needed */}
           </Routes>
         </main>
