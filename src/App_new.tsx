@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   ChevronDown,
   MenuIcon, 
@@ -36,24 +36,12 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Extract blog ID from URL and set it in state
-  useEffect(() => {
-    const pathParts = location.pathname.split('/');
-    if (pathParts[1] === 'blog' && pathParts[2]) {
-      const id = parseInt(pathParts[2]);
-      if (!isNaN(id)) {
-        setActiveBlogId(id);
-      }
-    }
-  }, [location]);
-
   // New content for navigation dropdowns
   const usecases = [
-    { name: 'Smart Building Management', description: 'Optimize building operations and energy usage', path: '/usecases/buildings' },
-    { name: 'Energy Management', description: 'Reduce energy consumption and costs with smart monitoring', path: '/usecases/energy' },
-    { name: 'Air Quality Monitoring', description: 'Monitor indoor air quality for healthier environments', path: '/usecases/air-quality' },
-    { name: 'Retail & Grocery', description: 'Smart retail solutions for inventory and facility management', path: '/usecases/retail' },
-    { name: 'Asset Management', description: 'Maximize equipment performance and lifespan', path: '/usecases/asset-management' }
+    { name: 'Smart Buildings', description: 'Optimize building operations and energy usage', path: '/usecases/buildings' },
+    { name: 'Smart Cities', description: 'Connect urban infrastructure for efficiency and safety', path: '/usecases/cities' },
+    { name: 'Industrial IoT', description: 'Monitor and control industrial equipment and processes', path: '/usecases/industrial' },
+    { name: 'Healthcare', description: 'Remote monitoring and smart healthcare facilities', path: '/usecases/healthcare' }
   ];
 
   const integrations = [
@@ -507,4 +495,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
